@@ -1,0 +1,6 @@
+{
+  "Name": "Webex_Exception_Alerting",
+  "ProjectType": "Library",
+  "Description": "Exception Message in Webex ausgeben",
+  "MainFile": "NewActivity.xaml"
+}
