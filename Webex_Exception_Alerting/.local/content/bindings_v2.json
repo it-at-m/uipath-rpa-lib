@@ -1,18 +1,4 @@
 {
   "version": "2.0",
-  "resources": [
-    {
-      "activityDisplayName": "Get Credential",
-      "activityId": "GetRobotCredential_1",
-      "resource": "asset",
-      "id": "assetglobal_WebEx_TokenFalse",
-      "value": {
-        "name": {
-          "defaultValue": "global_WebEx_Token",
-          "isExpression": false
-        }
-      },
-      "metadata": {}
-    }
-  ]
+  "resources": []
 }

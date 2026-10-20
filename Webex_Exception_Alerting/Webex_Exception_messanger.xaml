@@ -1,10 +1,14 @@
 <Activity mc:Ignorable="sap sap2010" x:Class="Main" xmlns="http://schemas.microsoft.com/netfx/2009/xaml/activities" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:s="clr-namespace:System;assembly=System.Private.CoreLib" xmlns:sap="http://schemas.microsoft.com/netfx/2009/xaml/activities/presentation" xmlns:sap2010="http://schemas.microsoft.com/netfx/2010/xaml/activities/presentation" xmlns:scg="clr-namespace:System.Collections.Generic;assembly=System.Private.CoreLib" xmlns:sco="clr-namespace:System.Collections.ObjectModel;assembly=System.Private.CoreLib" xmlns:ss="clr-namespace:System.Security;assembly=System.Private.CoreLib" xmlns:ui="http://schemas.uipath.com/workflow/activities" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
   <x:Members>
     <x:Property Name="in_SystemException" Type="InArgument(s:Exception)" />
+    <x:Property Name="in_ProzessName" Type="InArgument(x:String)" />
+    <x:Property Name="in_secure_webexToken" Type="InArgument(ss:SecureString)" />
+    <x:Property Name="in_WebexRoomId" Type="InArgument(x:String)" />
   </x:Members>
   <VisualBasic.Settings>
     <x:Null />
   </VisualBasic.Settings>
+  <sap2010:Annotation.AnnotationText>UPTF00000088eyI8SGVscExpbms+a19fQmFja2luZ0ZpZWxkIjpudWxsLCI8SW5pdGlhbFRvb2x0aXA+a19fQmFja2luZ0ZpZWxkIjpudWxsLCI8VmVyc2lvbj5rX19CYWNraW5nRmllbGQiOjF9</sap2010:Annotation.AnnotationText>
   <sap2010:WorkflowViewState.IdRef>ActivityBuilder_1</sap2010:WorkflowViewState.IdRef>
   <TextExpression.NamespacesForImplementation>
     <sco:Collection x:TypeArguments="x:String">
@@ -103,34 +107,16 @@
       <AssemblyReference>System.Net.ServicePoint</AssemblyReference>
     </sco:Collection>
   </TextExpression.ReferencesForImplementation>
-  <Sequence DisplayName="Main Sequence" sap:VirtualizedContainerService.HintSize="1017,944.6566666666666" sap2010:WorkflowViewState.IdRef="Sequence_1">
+  <Sequence DisplayName="Main Sequence" sap:VirtualizedContainerService.HintSize="797,931.2767529363281" sap2010:WorkflowViewState.IdRef="Sequence_1">
     <Sequence.Variables>
-      <Variable x:TypeArguments="x:String" Name="str_SystemExceptionMessage" />
       <Variable x:TypeArguments="x:String" Name="str_SystemExceptin_Body" />
-      <Variable x:TypeArguments="ss:SecureString" Name="secstr_exceptionRoomId" />
-      <Variable x:TypeArguments="x:String" Name="str_ProzessName" />
-      <Variable x:TypeArguments="ss:SecureString" Name="secstr_webexToken" />
-      <Variable x:TypeArguments="x:String" Name="str_webexroomid" />
+      <Variable x:TypeArguments="x:String" Name="str_SystemExceptionMessage" />
     </Sequence.Variables>
     <sap:WorkflowViewStateService.ViewState>
       <scg:Dictionary x:TypeArguments="x:String, x:Object">
         <x:Boolean x:Key="IsExpanded">True</x:Boolean>
       </scg:Dictionary>
     </sap:WorkflowViewStateService.ViewState>
-    <ui:GetRobotCredential TimeoutMS="{x:Null}" Username="{x:Null}" sap2010:Annotation.AnnotationText="Webex Token holen" AssetName="global_WebEx_Token" CacheStrategy="None" DisplayName="Get Credential" sap:VirtualizedContainerService.HintSize="478,207" sap2010:WorkflowViewState.IdRef="GetRobotCredential_1" Password="[secstr_webexToken]">
-      <sap:WorkflowViewStateService.ViewState>
-        <scg:Dictionary x:TypeArguments="x:String, x:Object">
-          <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
-        </scg:Dictionary>
-      </sap:WorkflowViewStateService.ViewState>
-    </ui:GetRobotCredential>
-    <ui:GetRobotCredential TimeoutMS="{x:Null}" Username="{x:Null}" sap2010:Annotation.AnnotationText="Webex Room-ID holen" AssetName="[str_webexroomid]" CacheStrategy="None" DisplayName="Get Credential" sap:VirtualizedContainerService.HintSize="478,207" sap2010:WorkflowViewState.IdRef="GetRobotCredential_2" Password="[secstr_exceptionRoomId]">
-      <sap:WorkflowViewStateService.ViewState>
-        <scg:Dictionary x:TypeArguments="x:String, x:Object">
-          <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
-        </scg:Dictionary>
-      </sap:WorkflowViewStateService.ViewState>
-    </ui:GetRobotCredential>
     <ui:MultipleAssign sap2010:Annotation.AnnotationText="Text der Exception und der Body für den https Request zusammengesetzt" DisplayName="Multiple Assign" sap:VirtualizedContainerService.HintSize="478,211" sap2010:WorkflowViewState.IdRef="MultipleAssign_2">
       <ui:MultipleAssign.AssignOperations>
         <scg:List x:TypeArguments="ui:AssignOperation" Capacity="4">
@@ -149,8 +135,8 @@
             <ui:AssignOperation.Value>
               <InArgument x:TypeArguments="x:String" xml:space="preserve">[Newtonsoft.Json.JsonConvert.SerializeObject(
     New Dictionary(Of String, Object) From {
-        {"roomId", New System.Net.NetworkCredential(String.Empty, secstr_exceptionRoomId).Password},
-        {"markdown", "**Process " &amp; str_ProzessName &amp; " has thrown a System Exception:**" &amp; vbCrLf &amp; str_SystemExceptionMessage}
+        {"roomId", New System.Net.NetworkCredential(String.Empty, in_WebexRoomId).Password},
+        {"markdown", "**Process " &amp; in_ProzessName &amp; " has thrown a System Exception:**" &amp; vbCrLf &amp; str_SystemExceptionMessage}
     })]</InArgument>
             </ui:AssignOperation.Value>
           </ui:AssignOperation>
@@ -170,7 +156,7 @@
         <scg:Dictionary x:TypeArguments="x:String, InArgument(x:String)" />
       </ui:HttpClient.Cookies>
       <ui:HttpClient.Headers>
-        <InArgument x:TypeArguments="x:String" x:Key="Authorization">["Bearer " &amp; New System.Net.NetworkCredential(String.Empty, secstr_webexToken).Password]</InArgument>
+        <InArgument x:TypeArguments="x:String" x:Key="Authorization">["Bearer " &amp; New System.Net.NetworkCredential(String.Empty, in_secure_webexToken).Password]</InArgument>
         <InArgument x:TypeArguments="x:String" x:Key="Content-Type">application/json</InArgument>
       </ui:HttpClient.Headers>
       <ui:HttpClient.Parameters>
