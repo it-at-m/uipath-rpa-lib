@@ -1,0 +1,6 @@
+{
+  "Name": "LHM_Webex_Message",
+  "ProjectType": "Library",
+  "Description": "Library, um Webexnachriten zu verschicken",
+  "MainFile": "NewActivity.xaml"
+}
